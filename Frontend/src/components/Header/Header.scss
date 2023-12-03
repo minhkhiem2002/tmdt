@@ -1,0 +1,33 @@
+.search-box-container {
+  margin: auto;
+  margin-left: 55px;
+  width: 100%;
+}
+.search-box-container input {
+  position: relative;
+  box-sizing: border-box;
+  color: white;
+  border: none;
+  height: 40px;
+  width: 100%;
+  padding-top: 7px;
+  text-indent: 35px;
+
+  background-color: #3a3b3c;
+  outline: none;
+  padding-bottom: 10px;
+}
+.box-sides-circled {
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+}
+.search-box-container input::placeholder {
+  color: #fff;
+}
+.search-box-container i {
+  position: absolute;
+  left: 30%;
+  top: 25%;
+}

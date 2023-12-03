@@ -1,0 +1,47 @@
+{
+    "data": [
+      {
+        "image": "https://bachkhoacncp.com/static/media/vl1.44bf37c725334dd6beb2.png",
+        "name": "Product 1",
+        "price": 600000,
+        "date": "2023-12-01"
+      },
+      {
+        "image": "https://bachkhoacncp.com/static/media/gt1.d26939ef570ccbe90091.png",
+        "name": "Product 2",
+        "price": 500000,
+        "date": "2023-12-02"
+      },
+      {
+        "image": "https://bachkhoacncp.com/static/media/dstt.5013f7e0e1daf5477c2c.png",
+        "name": "Product 3",
+        "price": 650000,
+        "date": "2023-12-03"
+      },
+      {
+        "image": "https://bachkhoacncp.com/static/media/hdc.97541f8664b921d2fb59.png",
+        "name": "Product 4",
+        "price": 600000,
+        "date": "2023-12-04"
+      },
+      {
+        "image": "https://bachkhoacncp.com/static/media/xacsuatthongke.e60cd0331208b340746f.png",
+        "name": "Product 5",
+        "price": 450000,
+        "date": "2023-12-05"
+      },
+      {
+        "image": "https://bachkhoacncp.com/static/media/n_gt2.46f5bfbfe2be396070a6.png",
+        "name": "Product 6",
+        "price": 450000,
+        "date": "2023-12-06"
+      },
+      {
+        "image": "https://bachkhoacncp.com/static/media/n_vl2.f447244006dc085e2dd8.png",
+        "name": "Product 7",
+        "price": 450000,
+        "date": "2023-12-06"
+      }
+    ]
+  }
+  
