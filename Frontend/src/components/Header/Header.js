@@ -30,6 +30,7 @@ const Header = () => {
         setSelectedIcon(iconName);
     };
     const userId = localStorage.getItem("userId");
+    const role = localStorage.getItem("role");
     const [imgURL, setImgURL] = useState("");
     const fetchData = useCallback(async () => {
         try {
@@ -49,12 +50,11 @@ const Header = () => {
     const handleLogout = () => {
         localStorage.removeItem("userId");
         localStorage.removeItem("role");
-        localStorage.removeItem("token");
     };
     const menu = (
         <Menu>
             <Menu.Item key="1">
-                <Link to="/personalInfo">Thông tin cá nhân</Link>
+                <Link to="/${role}/personalInfo">Thông tin cá nhân</Link>
             </Menu.Item>
             <Menu.Item key="2">
                 <Link to="/personalInfo/change-passwd">
@@ -177,7 +177,7 @@ const Header = () => {
                         onMouseEnter={() => setIsHovered5(true)}
                         onMouseLeave={() => setIsHovered5(false)}
                     >
-                        <Link className="" to="/" style={{ display: "flex", alignItems: "center" }}>
+                        <Link className="" to="/blog" style={{ display: "flex", alignItems: "center" }}>
                             <FaNewspaper color="black" size={32} style = {{marginTop: "10px"}} />
                         </Link>
                     </div>
