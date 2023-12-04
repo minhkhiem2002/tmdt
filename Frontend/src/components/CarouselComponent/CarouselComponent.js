@@ -21,7 +21,7 @@ const CarouselComponent = () => {
   };
 
   return (
-    <div style={{ width: "80%", margin: "auto" , marginTop: "20px"}}>
+    <div style={{ width: "80%", margin: "auto", paddingTop: "20px" }}>
       <Carousel {...settings}>
         {images.map((image, index) => (
           <div key={index} style={{ textAlign: "center" }}>

@@ -7,7 +7,7 @@ import CardCourse from '../../../components/CardCourse/CardCourse';
 import Footer from '../../../components/Footer/Footer';
 import axios from 'axios';
 
-const CourseOnline = () => {
+const UserCourseOnline = () => {
   const [data1, setData1] = useState([""]);
   const [hasFetchedData, setHasFetchedData] = useState(false);
 
@@ -64,4 +64,4 @@ const CourseOnline = () => {
   );
 };
 
-export default CourseOnline;
+export default UserCourseOnline;
