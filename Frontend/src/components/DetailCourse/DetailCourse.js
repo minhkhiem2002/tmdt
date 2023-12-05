@@ -3,46 +3,56 @@ import { Container, Row, Col } from 'react-bootstrap';
 import dataCourse from '../../data/data.json';
 import Header from "../Header/Header";
 import { Button } from "react-bootstrap";
+import { Button as AntdBtn } from "antd"
 import { BsPlayCircleFill } from "react-icons/bs";
 import { TiTick } from "react-icons/ti";
 import Footer from "../Footer/Footer";
 import { useLocation } from "react-router-dom";
 import axios from 'axios'
+import { Modal } from "antd";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { CLIENT_ID } from "../../config/paypal";
+import { getUserId } from "../../utils/localStorage";
 
 const DetailCourse = () => {
     const fontFamily = "Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol";
-    const data = dataCourse.data[0];
-    const [isMenuOpen, setIsMenuOpen] = useState(true);
-    const [isMenu1Open, setIsMenu1Open] = useState(false);
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
-    const toggleMenu1 = () => {
-        setIsMenu1Open(!isMenu1Open);
-    };
-
-    const [courseDetails, setCourseDetails] = useState(null);
-
-    // Lấy location state từ useLocation
     const location = useLocation();
     const courseName = location.state?.courseName;
+    const [isMenuOpen, setIsMenuOpen] = useState(true);
+    const [isMenu1Open, setIsMenu1Open] = useState(false);
+    const [courseDetails, setCourseDetails] = useState(null);
+    const [paymentUrl, setPaymentUrl] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const fetchCourseDetails = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3001/api/teacher/getDetailsCourse/${courseName}`);
+            console.log('Response:', response.data.data);
+            setCourseDetails(response.data.data);
+        } catch (error) {
+            console.error('Error fetching course details:', error);
+        }
+    };
+
+    const finishPayment = async () => {
+        try {
+            const response = await axios.post(`http://localhost:3001/api/payment/finish-payment`, {
+                userId: getUserId(),
+                courseId: courseDetails._id
+            });
+            console.log('Response:', response.data);
+            setCourseDetails(response.data);
+        } catch (error) {
+            console.error('Error fetching course details:', error);
+        }
+    }
 
     useEffect(() => {
         if (courseName) {
-            const fetchCourseDetails = async () => {
-                try {
-                    const response = await axios.get(`http://localhost:3001/api/teacher/getDetailsCourse/${courseName}`);
-                    console.log('Response:', response.data);
-                    setCourseDetails(response.data);
-                } catch (error) {
-                    console.error('Error fetching course details:', error);
-                }
-            };
     
             fetchCourseDetails();
         }
     }, [courseName]);
-    const [paymentUrl, setPaymentUrl] = useState(null);
 
     useEffect(() => {
         // Kiểm tra xem đã có URL thanh toán hay chưa
@@ -50,6 +60,55 @@ const DetailCourse = () => {
             window.location.href = paymentUrl;
         }
     }, [paymentUrl]);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+    const toggleMenu1 = () => {
+        setIsMenu1Open(!isMenu1Open);
+    };
+
+    const showModal = () => {
+      setIsModalOpen(true);
+    };
+  
+    const handleOk = () => {
+      setIsModalOpen(false);
+      finishPayment();
+    };
+  
+    const handleCancel = () => {
+      setIsModalOpen(false);
+    };
+
+    // creates a paypal order
+    const createOrder = (data, actions) => {
+        return actions.order.create({
+            purchase_units: [
+                {
+                    description: courseDetails.name,
+                    amount: {
+                        currency_code: "USD",
+                        value: courseDetails.price / 24000,
+                    },
+                },
+            ],
+        }).then((orderID) => {
+            console.log({orderID})
+            return orderID;
+        });
+    };
+
+    // check Approval
+    const onApprove = (data, actions) => {
+        return actions.order.capture().then(function (details) {
+            const { payer } = details;
+            console.log({details})
+            finishPayment();
+        });
+    };
+
+[].includes()
 
     const handlePayment = async () => {
         try {
@@ -67,7 +126,7 @@ const DetailCourse = () => {
 
             // Gọi API thanh toán tại endpoint /payment/initiate-payment
             const response = await axios.post("http://localhost:3001/api/payment/initiate-payment", {
-                amount: courseDetails.data.price,
+                amount: courseDetails.price,
             });
 
             // Kiểm tra response từ server
@@ -81,7 +140,7 @@ const DetailCourse = () => {
             console.error("Error initiating payment:", error);
         }
     };
-    console.log("Detail: ",courseDetails)
+
     return (
         <>
             <Header/>
@@ -90,7 +149,7 @@ const DetailCourse = () => {
                     <Col xs={9} style={{ display: "flex", flexDirection: "column" }}>
                     {courseDetails && (
                             <span style={{ fontSize: "30px", fontWeight: "800" }}>
-                                Lớp dạy cấp tốc giữa kì {courseDetails.data.name}
+                                Lớp dạy cấp tốc giữa kì {courseDetails.name}
                             </span>
                         )}
 
@@ -238,7 +297,7 @@ const DetailCourse = () => {
                         {courseDetails && (
                         <div style={{ position: "relative"}}>
                             <img
-                                src={courseDetails.data.image}
+                                src={courseDetails.image}
                                 alt="details"
                                 width="350px"
                                 height="200px"
@@ -247,17 +306,44 @@ const DetailCourse = () => {
                             <BsPlayCircleFill style={{ position: "absolute", top: "40%", left: "55%", fontSize: "3em", color: "white", zIndex: "1" }} />
                         </div>)}
                         <Container >
-                        {courseDetails && (
-               
-                                    <p style = {{marginLeft: "100px",alignItems: "left",fontWeight: "600",  fontFamily: fontFamily, fontSize: "16px", marginTop: "5px"}}>Giá Khóa Học: {courseDetails.data.price} VNĐ</p>
-                      
+                        {courseDetails?.students.includes(getUserId())
+                        ? (<Button style = {{marginLeft: "100px", marginTop: "30px"}}>Xem Khóa học</Button>)
+                        : (
+                            <>
+                                {courseDetails && <p style = {{marginLeft: "100px",alignItems: "left",fontWeight: "600",  fontFamily: fontFamily, fontSize: "16px", marginTop: "5px"}}>
+                                    Giá Khóa Học: {courseDetails.price} VNĐ
+                                </p>}
+                                <Button onClick={showModal} style = {{marginLeft: "100px", marginTop: "0px"}}>Mua Ngay</Button>
+                            </>
                         )}
-                            <Button onClick={handlePayment} style = {{marginLeft: "100px", marginTop: "0px"}}>Mua Ngay</Button>
                         </Container>
                     </Col>
                 </Row>
             </Container>
             <Footer/>
+            <Modal
+                title="Chọn phương thức thanh toán"
+                okText='Tạo thanh toán giả'
+                cancelText='Hủy bỏ'
+                open={isModalOpen}
+                onOk={handleOk}
+                onCancel={handleCancel}
+            >
+                <Row
+                style={{
+                    padding: '16px 0'
+                }}>
+                    <Col>
+                        <PayPalScriptProvider options={{ "client-id": CLIENT_ID }}>
+                            <PayPalButtons
+                                style={{ layout: "vertical" }}
+                                createOrder={createOrder}
+                                onApprove={onApprove}
+                            />
+                        </PayPalScriptProvider>
+                    </Col>
+                </Row>
+            </Modal>
         </>
     );
 };
