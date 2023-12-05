@@ -19,6 +19,7 @@ import UserHome from "./pages/User/Home/Home";
 import UserCourseOnline from "./pages/User/CourseOnline/CourseOnline";
 import TeacherHome from "./pages/Teacher/Home/TeacherHome";
 import TeacherCourseOnline from "./pages/Teacher/CourseOnline/CourseOnline";
+import AdminHome from "./pages/Admin/An/AdminHome";
 function App() {
   const [role, setRole] = useState("");
 
@@ -48,6 +49,13 @@ function App() {
             <Route path="/onlinecourses" element={<TeacherCourseOnline />} />
           </>
         )}
+        {role === "admin" && (
+          <>
+            <Route path="/" element={<AdminHome />} />
+          </>
+        )
+
+        }
       </Routes>
     </>
   );
