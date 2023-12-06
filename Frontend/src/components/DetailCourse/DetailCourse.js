@@ -89,7 +89,7 @@ const DetailCourse = () => {
                     description: courseDetails.name,
                     amount: {
                         currency_code: "USD",
-                        value: courseDetails.price / 24000,
+                        value: (courseDetails.price / 24000).toFixed(2),
                     },
                 },
             ],
@@ -103,7 +103,7 @@ const DetailCourse = () => {
     const onApprove = (data, actions) => {
         return actions.order.capture().then(function (details) {
             const { payer } = details;
-            console.log({details})
+            handleCancel()
             finishPayment();
         });
     };
@@ -323,11 +323,12 @@ const DetailCourse = () => {
             <Footer/>
             <Modal
                 title="Chọn phương thức thanh toán"
-                okText='Tạo thanh toán giả'
-                cancelText='Hủy bỏ'
+                // okText='Tạo thanh toán giả'
+                // cancelText='Hủy bỏ'
                 open={isModalOpen}
-                onOk={handleOk}
+                // onOk={handleOk}
                 onCancel={handleCancel}
+                footer={<AntdBtn onClick={handleCancel}>Hủy bỏ</AntdBtn>}
             >
                 <Row
                 style={{
