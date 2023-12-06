@@ -54,10 +54,10 @@ const Header = () => {
     const menu = (
         <Menu>
             <Menu.Item key="1">
-                <Link to="/${role}/personalInfo">Thông tin cá nhân</Link>
+                <Link to="/personalInfo">Thông tin cá nhân</Link>
             </Menu.Item>
             <Menu.Item key="2">
-                <Link to="/personalInfo/change-passwd">
+                <Link to="/personalInfo">
                     Thay đổi mật khẩu
                 </Link>
             </Menu.Item>
@@ -126,7 +126,7 @@ const Header = () => {
                         onMouseEnter={() => setIsHovered2(true)}
                         onMouseLeave={() => setIsHovered2(false)}
                     >
-                        <Link className="" to="/" style={{ display: "flex", alignItems: "center" }}>
+                        <Link className="" to="/elearning" style={{ display: "flex", alignItems: "center" }}>
                             <MdOutlineOndemandVideo color="black" size={35} style = {{marginTop: "10px"}} />
                         </Link>
                     </div>
@@ -143,7 +143,7 @@ const Header = () => {
                         onMouseEnter={() => setIsHovered3(true)}
                         onMouseLeave={() => setIsHovered3(false)}
                     >
-                        <Link className="" to="/" style={{ display: "flex", alignItems: "center" }}>
+                        <Link className="" to="/friend" style={{ display: "flex", alignItems: "center" }}>
                             <MdPeopleAlt color="black" size={32} style = {{marginTop: "10px"}} />
                         </Link>
                     </div>

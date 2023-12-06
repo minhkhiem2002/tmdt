@@ -20,6 +20,9 @@ import UserCourseOnline from "./pages/User/CourseOnline/CourseOnline";
 import TeacherHome from "./pages/Teacher/Home/TeacherHome";
 import TeacherCourseOnline from "./pages/Teacher/CourseOnline/CourseOnline";
 import AdminHome from "./pages/Admin/An/AdminHome";
+import CourseOnline from "./pages/Admin/CourseOnline/CourseOnline";
+import FriendPage from "./components/FriendPage/FriendPage";
+import Elearning from "./components/ELearning/ELearning";
 function App() {
   const [role, setRole] = useState("");
 
@@ -37,6 +40,8 @@ function App() {
         <Route path="/onlinecourses/:courseName" element={<DetailCourse />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/personalInfo" element={<PersonalInfo />} />
+        <Route path = "/friend" element={<FriendPage/>} />
+        <Route path = "/elearning" element={<Elearning />} />
         {role === "user" && (
           <>
             <Route path="/" element={<UserHome />} />
@@ -52,6 +57,7 @@ function App() {
         {role === "admin" && (
           <>
             <Route path="/" element={<AdminHome />} />
+            <Route path = "/onlinecourses" element={<CourseOnline />} />
           </>
         )
 

@@ -40,9 +40,10 @@ const TeacherCourseOnline = () => {
     console.log("Data is", data1);
   }, [data1]);
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData1 = async () => {
       try {
         const response = await axios.get(`http://localhost:3001/api/teacher/getAll/${teacherId}`);
+        console.log('Teacher courses', response)
         if (response.data.status === 200) {
           setData2(response.data.data);
         } else {
@@ -53,12 +54,8 @@ const TeacherCourseOnline = () => {
       }
     };
   
-    fetchData();
-  }, []); // Chỉ gọi một lần khi component mount
-  
-  useEffect(() => {
-    console.log("Data is", data2);
-  }, [data2]);
+    fetchData1();
+  }, [teacherId]);
   return (
     <>
 

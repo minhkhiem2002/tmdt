@@ -12,10 +12,9 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import "./AdminHome.scss";
 import Sidebar from "../../Sidebar/Sidebar";
 
-const AdminHome = () => {
+const CourseOnline = () => {
     const navigate = useNavigate();
 
   const [isDropdown, setIsDropdown] = useState(false);
@@ -47,7 +46,7 @@ const AdminHome = () => {
     const fetchData1 = useCallback(async () => {
       try {
           if (adminId) {
-              const apiURL = `http://localhost:3001/api/user/getAll`;
+              const apiURL = `http://localhost:3001/api/teacher/getAllCourse`;
               const res = await axios.get(apiURL);
               if (res) {
                 setAllUsers(res?.data.data);
@@ -83,8 +82,8 @@ const AdminHome = () => {
         setOpenModalEdit(true);
         setIsModalOpen(true);
         form.setFieldsValue({
-          username: data.name,
-          phone: data.phone,
+          name: data.name,
+          price: data.price,
         });
     };
     const handleCancel = () => {
@@ -103,8 +102,8 @@ const AdminHome = () => {
         const apiURL = `http://localhost:3001/api/user/update-user/${selectedUsers._id}`;
         try {
             const res = axios.put(apiURL, {
-                name: data.username,
-                phone: data.phone,
+                name: data.name,
+                price: data.price,
             });
             if (res) {
                 setOpenModalEdit(false);
@@ -115,8 +114,8 @@ const AdminHome = () => {
                         user._id === selectedUsers._id
                             ? {
                                   ...user,
-                                  name: data.username,
-                                  phone: data.phone,
+                                  name: data.name,
+                                  price: data.price,
                               }
                             : user
                     )
@@ -133,13 +132,13 @@ const AdminHome = () => {
         try {
             const res = axios.delete(apiURL);
             if (res) {
-                toast.success('Delete user successfully')
+                toast.success('Delete courses successfully')
                 setAllUsers((prevUsers) =>
                     prevUsers.filter((user) => user._id !== selectedUsers._id)
                 );
             }
         } catch (error) {
-            toast.error('Delete user failed: ')
+            toast.error('Delete courses failed: ')
             console.log(error);
         } finally {
             setOpenModalDelete(false);
@@ -155,10 +154,13 @@ const AdminHome = () => {
         </Col>
         <Col xs = {9}>
           <Row>
+          <Col xs = {10} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
+                  <p className="headerName" style={{ marginTop: "-10px", marginLeft: "10px" }}>
+                      Hello {name}!
+                  </p>
+                </Col>
+                <Col style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-start' }}>
               <Dropdown className="headerLogin">
-                <div className="headerName" style={{ marginTop: "15px", marginLeft: "900px" }}>
-                    {name}
-                </div>
                 <Dropdown.Toggle style={{ backgroundColor: "white", border: "none", width: "100%" }}>
                   <img
                     src= {imgURL}
@@ -167,6 +169,7 @@ const AdminHome = () => {
                     onClick={handleDropdown}
                     width="50px"
                     height="50px"
+            
                   ></img>
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
@@ -182,6 +185,7 @@ const AdminHome = () => {
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
+                </Col>
           </Row>
           <Row>
             <bold style={{ fontSize: "40px", fontWeight: "700" }}>Quản lý danh sách của thư viện</bold>
@@ -195,7 +199,7 @@ const AdminHome = () => {
                 Search
               </Button>
               <Button variant="outlined" color="secondary" style={{ width: "120px" }}>
-                Thêm sách
+                Thêm Khóa học
               </Button>
             </Col>
           </Row>
@@ -203,9 +207,9 @@ const AdminHome = () => {
             <Table dataSource={allUsers} bordered>
               {/* <Table.Column title="Id" dataIndex="id" key="id" /> */}
               <Table.Column title="Tên" dataIndex="name" key="name" />
-              <Table.Column title="Email" dataIndex="email" key="email" />
-              <Table.Column title="Số điện thoại" dataIndex="phone" key="phone" />
-              <Table.Column title="Role" dataIndex="role" key="role" />
+  <Table.Column title="Giá" dataIndex="price" key="price" />
+  <Table.Column title="Giáo viên" dataIndex={['teacherId', 'name']} key="teacherName" />
+  <Table.Column title="Email" dataIndex={['teacherId', 'email']} key="teacherEmail" />
               <Table.Column
                 title="Action"
                 key="action"
@@ -243,7 +247,7 @@ const AdminHome = () => {
                     ]}
                 >
                     <p style={{ fontSize: "18px" }}>
-                        Xác nhận xóa người dùng{" "}
+                        Xác nhận xóa Khóa học{" "}
                         <strong>{selectedUsers?.name}</strong>?
                     </p>
                 </Modal>
@@ -306,4 +310,4 @@ const AdminHome = () => {
   );
 };
 
-export default AdminHome;
+export default CourseOnline;

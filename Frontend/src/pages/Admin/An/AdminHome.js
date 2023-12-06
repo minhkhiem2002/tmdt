@@ -197,7 +197,7 @@ const AdminHome = () => {
                 Search
               </Button>
               <Button variant="outlined" color="secondary" style={{ width: "120px" }}>
-                Thêm sách
+                Thêm thành viên
               </Button>
             </Col>
           </Row>
