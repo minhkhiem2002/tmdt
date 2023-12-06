@@ -13,8 +13,8 @@ const Sidebar = () => {
                       <img
                         src="https://cdn.vatgia.com/pictures/thumb/w500/2013/09/fls1380328738.png"
                    
-                        height="250px"
-                        width="100px"
+                        height="150px"
+                        width="80px"
                         alt="Logo"
                       />
                   </Row>
@@ -24,13 +24,13 @@ const Sidebar = () => {
                     </NavLink>
                 
                   </Row>
-                  <Row>
+                  <Row style = {{marginTop: "15px"}}>
          
-                    <NavLink to = '/courseOnline' style = {{textDecoration: "none"}}>
+                    <NavLink to = '/onlinecourses' style = {{textDecoration: "none"}}>
                     <FaList style = {{marginTop: "-3px", marginRight: "5px", marginLeft: "60px"}} size = {20}/> <span style={{ fontWeight: "600", color: "black", fontSize: "20px", marginTop: "10px"}}>Khóa học online</span>
                     </NavLink>
                   </Row>
-                  <Row>
+                  <Row style = {{marginTop: "15px"}}>
               
                     <NavLink to = '/coursePost' style = {{textDecoration: "none"}}>
                       <RiPencilLine style = {{marginTop: "-3px", marginRight: "5px", marginLeft: "60px"}} size = {20}/> <span style={{ fontWeight: "600", color: "black", fontSize: "20px" }}>Khóa học đăng tải</span>

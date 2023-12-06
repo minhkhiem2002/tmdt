@@ -55,7 +55,7 @@ const getCourses = (teacherId) => {
 const getAllCourses = () => {
     return new Promise(async (resolve, reject) => {
       try {
-        const courses = await CourseOnline.find({});
+        const courses = await CourseOnline.find({}).populate('teacherId');;
         resolve({
           status: 200,
           message: 'Get all courses successfully',
