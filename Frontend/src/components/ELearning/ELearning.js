@@ -2,10 +2,6 @@ import React, {useState} from 'react';
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
-import { Card,Modal, Form, Button, } from "react-bootstrap";
-import { FcVideoCall } from "react-icons/fc";
-import { FcAddImage } from "react-icons/fc";
-import { FcSmartphoneTablet } from "react-icons/fc";
 import Header from '../Header/Header';
 import { CiSearch } from "react-icons/ci";
 import { FaPhoneVolume } from "react-icons/fa6";

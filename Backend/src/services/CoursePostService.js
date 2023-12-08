@@ -79,4 +79,20 @@ const selectContact = async (postId, teacherId) => {
     console.log(error);
   }
 };
-module.exports = { creatCourse, createContact, selectContact };
+const getAllCoursePosts = async () => {
+  try {
+    const allCoursePosts = await CoursePostModel.find();
+    return {
+      status: 200,
+      message: "Get All Course Posts Successfully",
+      data: { allCoursePosts },
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      status: 500,
+      message: "Internal Server Error",
+    };
+  }
+};
+module.exports = { creatCourse, createContact, selectContact, getAllCoursePosts };

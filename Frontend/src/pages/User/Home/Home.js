@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import Header from '../../../components/Header/Header';
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
@@ -7,8 +7,13 @@ import { Card,Modal, Form, Button, } from "react-bootstrap";
 import { FcVideoCall } from "react-icons/fc";
 import { FcAddImage } from "react-icons/fc";
 import { FcSmartphoneTablet } from "react-icons/fc";
-
+import axios from 'axios'
+import { CiSearch } from "react-icons/ci";
+import { FaPhoneVolume } from "react-icons/fa6";
+import { IoPersonAdd } from "react-icons/io5";
+import { Link, useNavigate } from "react-router-dom";
 const UserHome = () => {
+    const navigate = useNavigate()
     const [showBox, setShowBox] = useState(false);
     const [showTeacher, setShowTeacher] = useState(false);
     const [posts, setPosts] = useState([]);
@@ -50,37 +55,85 @@ const UserHome = () => {
             setShowBox(false);
         }
     }
-
+    const fetchData = useCallback(async () => {
+        try {
+                const response = await axios.get(`http://localhost:3001/api/teacher/getAllCoursePosts`);
+                    console.log("Courses",response.data)
+                    if (response) {
+                    setPosts(response.data.allCoursePosts);
+                    } else {
+                    console.error('Failed to fetch data');
+                    }
+            
+        } catch (error) {
+            console.log("error fetching", error);
+        }
+    }, []);
+    useEffect(() => {
+      fetchData();
+  }, [fetchData]);
+  const showTeacherInfo = () => {
+        navigate('/teacherInfo')
+  }
     return (
         <>
             <Header/>
-            <Container fluid style = {{backgroundColor: "#f1f7f7", height: "100vh"}}>
+            <Container fluid style = {{backgroundColor: "#f1f7f7", height: "140vh"}}>
                 <Row>
-                    <Col xs = {2} style = {{marginLeft: "10px", marginTop: "20px"}}>
+                <Col xs = {2} style = {{marginLeft: "10px", marginTop: "20px"}}>
                         <div style = {{border: "1px solid grey", borderRadius: "30px", borderTop: "none",backgroundColor: "white"}}>
-                            <div style = {{backgroundColor: "lightblue", borderRadius: "20px", height: "40px"}}>
-                                <p style = {{textAlign: "center"}}>Tìm kiếm gia sư</p>
+                            <div style = {{backgroundColor: "lightblue", borderRadius: "20px", height: "40px", display: "flex"}}>
+                            <b style = {{textAlign: "center", marginLeft: "50px", marginTop: "8px", marginBottom: "0px"}}>Tìm kiếm gia sư</b>
+                                <CiSearch style = {{marginTop: "10px", marginLeft: "5px", fontWeight: "1000"}} size = {18}/>
                             </div>
-                            <div style = {{textAlign: "center" }}>
+                            <div style = {{textAlign: "center" , marginBottom: "40px" }}>
                                 <p>Gia sư Thủ Đức</p>
-                                <p>Gia sư Thủ Đức</p>
-                                <p>Gia sư Thủ Đức</p>
-                                <p>Gia sư Thủ Đức</p>
-                                <p>Gia sư Thủ Đức</p>
+                                <p>Gia sư Quận 2</p>
+                                <p>Gia sư Quận 1</p>
+                                <p>Gia sư Quận 5</p>
+                                <p>Gia sư Quận 9</p>
                             </div>
                         </div>
-                        <div style = {{border: "1px solid grey", borderRadius: "30px", marginTop: "15px", borderTop: "none", backgroundColor: "white"}}>
-                            <div style = {{backgroundColor: "lightblue", borderRadius: "20px", height: "40px"}}>
-                                <p style = {{textAlign: "center"}}>Tìm kiếm gia sư</p>
+                        <div style = {{border: "1px solid grey", borderRadius: "30px", marginTop: "-30px", borderTop: "none", backgroundColor: "white"}}>
+                            <div style = {{backgroundColor: "lightblue", borderRadius: "20px", height: "40px", display: "flex"}}>
+                            <b style = {{textAlign: "center", marginLeft: "40px", marginTop: "8px", marginBottom: "0px"}}>Đăng ký làm gia sư</b>
+                                <IoPersonAdd style = {{marginTop: "10px", marginLeft: "5px", fontWeight: "1000"}} size = {18}/>
+                            </div>
+                            <div style = {{textAlign: "center", marginBottom: "40px"}}>
+                                <p>Gia sư Thủ Đức</p>
+                                <p>Gia sư Quận 2</p>
+                                <p>Gia sư Quận 1</p>
+                                <p>Gia sư Quận 5</p>
+                                <p>Gia sư Quận 19</p>
+                            </div>
+                        </div>
+                        <div style = {{border: "1px solid grey", borderRadius: "30px", marginTop: "-30px", borderTop: "none", backgroundColor: "white"}}>
+                            <div style = {{backgroundColor: "lightblue", borderRadius: "20px", height: "40px", display: "flex"}}>
+                            <b style = {{textAlign: "center", marginLeft: "50px", marginTop: "8px", marginBottom: "0px"}}>Hỗ trợ nhanh</b>
+                                <FaPhoneVolume style = {{marginTop: "10px", marginLeft: "10px", fontWeight: "1000"}} size = {18}/>
                             </div>
                             <div style = {{textAlign: "center"}}>
                                 <p>Gia sư Thủ Đức</p>
-                                <p>Gia sư Thủ Đức</p>
-                                <p>Gia sư Thủ Đức</p>
-                                <p>Gia sư Thủ Đức</p>
-                                <p>Gia sư Thủ Đức</p>
+                                <p>Gia sư Quận 2</p>
+                                <p>Gia sư Quận 1</p>
+                                <p>Gia sư Quận 5</p>
+                                <p>Gia sư Quận 19</p>
+                            </div>
+                            <div style = {{backgroundColor: "green", borderRadius: "20px", height: "40px"}}>
+                                <p style = {{textAlign: "center", color : "white", paddingTop: "10px", fontWeight: "600"}}>Có thể bạn quan tâm</p>
+                            </div>
+                            <div style = {{textAlign: "center"}}>
+                                <img
+                                    src = "https://88mobile.vn/wp-content/uploads/2023/09/Plus.png"
+                                    alt = "quangcao"
+                                    width = "150px"
+                                    height = "150px"
+                                    style = {{marginTop: "10px", borderRadius :"10px", marginBottom: "10px"}}
+                                />
+                                <p style = {{width: "80%", marginLeft: "10%"}}>Doulingo</p>
                             </div>
                         </div>
+                        
                     </Col>
                     <Col xs = {6}>
                         <Container style = {{marginLeft: "120px", marginTop: "20px"}}>
@@ -274,14 +327,15 @@ const UserHome = () => {
                                                                                     style = {{borderRadius: "20px", marginLeft: "5px"}}
                                                                                 />
                                                                             </Col>
-                                                                            <Col xs = {3}>
-                                                                                Thông tin chung
+                                                                            <Col xs = {2}>
+                                                                                teacher
                                                                             </Col>
                                                                             <Col xs = {4}>
-                                                                                Thành tích
+                                                                                Gia sư xuất sắc tháng 12
                                                                             </Col>
-                                                                            <Col xs = {3}>
-                                                                                <Button className = "w-80 h-60" style = {{textAlign: "center"}}><span style = {{}}>Đồng ý</span></Button>
+                                                                            <Col xs = {4}>
+                                                                                <Button className = "w-50 h-60" style = {{textAlign: "center", marginRight: "5px", marginLeft: "-5px"}} onClick = {showTeacherInfo}><span style = {{}}>View</span></Button>
+                                                                                <Button className = "w-50 h-60" style = {{textAlign: "center"}}><span style = {{}}>Accept</span></Button>
                                                                             </Col>
                                                                         </Row>
                                                                     </Container>
@@ -297,27 +351,57 @@ const UserHome = () => {
                     </Col>
                     <Col xs = {2} style = {{marginLeft: "230px", marginTop: "20px"}}>
                         <div style = {{border: "1px solid grey", borderRadius: "30px", borderTop: "none",backgroundColor: "white"}}>
-                            <div style = {{backgroundColor: "lightblue", borderRadius: "20px", height: "40px"}}>
-                                <p style = {{textAlign: "center"}}>Tìm kiếm gia sư</p>
+                            <div style = {{backgroundColor: "blue", borderRadius: "20px", height: "40px"}}>
+                                <b style = {{textAlign: "center", color: "white", paddingTop: "20px", marginLeft: "55px"}}>Gia sư tiêu biểu</b>
                             </div>
                             <div style = {{textAlign: "center" }}>
-                                <p>Gia sư Thủ Đức</p>
-                                <p>Gia sư Thủ Đức</p>
-                                <p>Gia sư Thủ Đức</p>
-                                <p>Gia sư Thủ Đức</p>
-                                <p>Gia sư Thủ Đức</p>
+                            <img
+                                    src = "https://storage.timviec365.vn/timviec365/pictures/2023/04/06/avatar239644.jpg"
+                                    alt = "giasutieubieu"
+                                    width = "150px"
+                                    height = "150px"
+                                />
+                                <p style = {{fontWeight: "600"}}>Lê Minh Khiêm #24</p>
+                                <div style = {{display: "flex"}}>
+                                    <p style= {{marginLeft: "10px"}}>Đánh giá</p>
+                                    <img 
+                                        src = "https://scontent.fsgn2-6.fna.fbcdn.net/v/t1.15752-9/400848875_872811920984445_9211097698052232281_n.png?_nc_cat=110&ccb=1-7&_nc_sid=8cd0a2&_nc_eui2=AeGR70DLZLgRNHOcDFk14kHJD3OP5dfDRX0Pc4_l18NFfXcF4iinfXneDtTHZGlqXwWVCRq_LevK7WjdzuULJRqt&_nc_ohc=f593h8ZhpCkAX_m7yYM&_nc_ht=scontent.fsgn2-6.fna&oh=03_AdQTmeftY8lq1v8Lyafkivc-ewWYj6w71RBM48RjsXNP-w&oe=6599EF67"
+                                        alt = "5sao"
+                                        width = "100px"
+                                        height = "70px"
+                                        style = {{marginTop: "-20px", marginLeft: "50px"}}
+                                    />
+                                </div>
+                                <p style = {{marginTop: "-20px"}}>Chuyên môn &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Toán, Lý ,Hóa</p>
+                                <p style = {{marginTop: "-10px", marginBottom: "40px"}}>Cấp dạy &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Cấp 1,2,3</p>
                             </div>
                         </div>
-                        <div style = {{border: "1px solid grey", borderRadius: "30px", marginTop: "15px", borderTop: "none", backgroundColor: "white"}}>
-                            <div style = {{backgroundColor: "lightblue", borderRadius: "20px", height: "40px"}}>
-                                <p style = {{textAlign: "center"}}>Tìm kiếm gia sư</p>
+                        <div style = {{border: "1px solid grey", borderRadius: "30px", marginTop: "-35px", borderTop: "none", backgroundColor: "white"}}>
+                            <div style = {{backgroundColor: "orange", borderRadius: "20px", height: "40px"}}>
+                                <p style = {{textAlign: "center", color : "white", paddingTop: "10px", fontWeight: "600"}}>Được tài trợ</p>
                             </div>
                             <div style = {{textAlign: "center"}}>
-                                <p>Gia sư Thủ Đức</p>
-                                <p>Gia sư Thủ Đức</p>
-                                <p>Gia sư Thủ Đức</p>
-                                <p>Gia sư Thủ Đức</p>
-                                <p>Gia sư Thủ Đức</p>
+                                <img
+                                    src = "https://icdn.dantri.com.vn/thumb_w/640/2018/11/30/s1-15435661311921215420702.png"
+                                    alt = "quangcao"
+                                    width = "200px"
+                                    height = "200px"
+                                    style = {{marginTop: "10px", borderRadius :"10px", marginBottom: "10px"}}
+                                />
+                                <p style = {{width: "80%", marginLeft: "10%"}}>Siêu sale Đại hội sinh nhật tháng 12</p>
+                            </div>
+                            <div style = {{backgroundColor: "purple", borderRadius: "20px", height: "40px"}}>
+                                <p style = {{textAlign: "center", color : "white", paddingTop: "10px", fontWeight: "600"}}>Có thể bạn quan tâm</p>
+                            </div>
+                            <div style = {{textAlign: "center"}}>
+                                <img
+                                    src = "https://magiamgia.com/wp-content/uploads/2022/12/Lazada-Sale-12.12.jpg"
+                                    alt = "quangcao"
+                                    width = "200px"
+                                    height = "200px"
+                                    style = {{marginTop: "10px", borderRadius :"10px", marginBottom: "10px"}}
+                                />
+                                <p style = {{width: "80%", marginLeft: "10%"}}>Siêu sale Đại hội sinh nhật tháng 12</p>
                             </div>
                         </div>
                     </Col>

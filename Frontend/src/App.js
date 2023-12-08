@@ -23,14 +23,9 @@ import AdminHome from "./pages/Admin/An/AdminHome";
 import CourseOnline from "./pages/Admin/CourseOnline/CourseOnline";
 import FriendPage from "./components/FriendPage/FriendPage";
 import Elearning from "./components/ELearning/ELearning";
+import TeacherInfo from "./pages/User/TeacherInfo/TeacherInfo";
 function App() {
-  const [role, setRole] = useState("");
-
-  useEffect(() => {
-    
-    setRole(localStorage.getItem('role'));
-    console.log("App get role", role)
-  }, []);
+  const role = localStorage.getItem('role')
   return (
     <>
       <Routes>
@@ -42,6 +37,7 @@ function App() {
         <Route path="/personalInfo" element={<PersonalInfo />} />
         <Route path = "/friend" element={<FriendPage/>} />
         <Route path = "/elearning" element={<Elearning />} />
+        <Route path = "/teacherInfo" element={<TeacherInfo />} />
         {role === "user" && (
           <>
             <Route path="/" element={<UserHome />} />
