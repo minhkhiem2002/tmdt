@@ -7,6 +7,8 @@ router.post("/createOnline/:id", CourseOnlineController.createOnlineCourse);
 router.get("/getAll/:id", CourseOnlineController.getCourses);
 router.get("/getAllCourse", CourseOnlineController.getAllCourses);
 router.get("/getDetailsCourse/:name", CourseOnlineController.getCourseByName);
+
+router.get("/getAllCoursePosts", CoursePostController.getAllCoursePosts);
 router.post("/createPostCourse", CoursePostController.creatCourse);
 router.post("/createContact", CoursePostController.createContact);
 router.post("/selectContact", CoursePostController.selectContact);

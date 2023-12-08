@@ -1,0 +1,13 @@
+.toggle-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Màu xanh lá */
+    color: #fff; /* Màu chữ trắng */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .toggle-btn:hover {
+    background-color: #45a049; /* Màu xanh lá nhạt khi hover */
+  }

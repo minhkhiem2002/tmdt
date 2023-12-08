@@ -37,4 +37,20 @@ const selectContact = async (req, res) => {
     });
   }
 };
-module.exports = { creatCourse, createContact, selectContact };
+const getAllCoursePosts = async (req, res) => {
+  try {
+    const response = await CoursePostService.getAllCoursePosts();
+    return res.status(response.status).json(response.data);
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
+module.exports = { 
+  creatCourse, 
+  createContact, 
+  selectContact, 
+  getAllCoursePosts 
+};
